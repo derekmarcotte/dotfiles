@@ -35,14 +35,13 @@ vim-go)
 	;;
 colors)
 	mkdir colors
-
 	cd colors
 
 	# https://github.com/tomasr/molokai
 	curl -OJ https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim
 
-	# https://github.com/euclio/vim-nocturne
-	curl -OJ https://raw.githubusercontent.com/euclio/vim-nocturne/master/colors/nocturne.vim
+	# https://github.com/noahfrederick/vim-noctu
+	curl -OJ https://raw.githubusercontent.com/noahfrederick/vim-noctu/master/colors/noctu.vim
 	;;
 base)
 	$0 pathogen
