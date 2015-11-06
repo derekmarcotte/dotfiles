@@ -1,0 +1,60 @@
+#!/bin/sh
+
+pathogen_install() {
+	if [ ! -d bundle ]; then
+		echo "Pathogen not found, installing?"
+		$0 pathogen
+	fi
+
+	cd bundle
+}
+
+case $1 in
+pathogen)
+	# https://github.com/tpope/vim-pathogen
+	mkdir autoload bundle 
+	curl -LSso autoload/pathogen.vim https://tpo.pe/pathogen.vim
+	;;
+vim-sensible)
+	pathogen_install
+	if [ -d vim-sensible ]; then
+		cd vim-sensible
+		git pull 
+	else
+		git clone git://github.com/tpope/vim-sensible.git
+	fi
+	;;
+vim-go)
+	pathogen_install
+	if [ -d vim-go ]; then
+		cd vim-go
+		git pull 
+	else
+		git clone https://github.com/fatih/vim-go.git
+	fi
+	;;
+colors)
+	mkdir colors
+
+	cd colors
+
+	# https://github.com/tomasr/molokai
+	curl -OJ https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim
+
+	# https://github.com/euclio/vim-nocturne
+	curl -OJ https://raw.githubusercontent.com/euclio/vim-nocturne/master/colors/nocturne.vim
+	;;
+base)
+	$0 pathogen
+	$0 colors
+	$0 vim-sensible
+	;;
+wipe)
+	rm -rf autoload
+	rm -rf bundle
+	rm -rf colors
+	;;
+*)
+	echo "$0 [base|pathogen|vim-sensible|vim-go|colors]"
+	;;
+esac
