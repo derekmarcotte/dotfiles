@@ -3,4 +3,9 @@ syntax on
 filetype plugin indent on
 
 colorscheme molokai
+
+" 256-colour mode
 set t_Co=256
+
+" flag column 80
+set colorcolumn=80
