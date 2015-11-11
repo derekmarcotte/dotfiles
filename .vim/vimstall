@@ -1,5 +1,10 @@
 #!/bin/sh
 
+usage() {
+	echo "$0 [base|pathogen|vim-sensible|vim-go|vim-sync|colors]"
+	exit 1
+}
+
 pathogen_install() {
 	if [ ! -d bundle ]; then
 		echo "Pathogen not found, installing?"
@@ -9,28 +14,46 @@ pathogen_install() {
 	cd bundle
 }
 
+REPO=""
+repo() {
+	# poor-man's associative array
+	case $1 in
+	vim-sensible)
+		REPO="git://github.com/tpope/vim-sensible.git"
+		;;
+	vim-go)
+		REPO="https://github.com/fatih/vim-go.git"
+		;;
+	vim-sync)
+		REPO="https://github.com/eshion/vim-sync"
+		;;
+	*)
+		return 1
+		;;
+	esac
+
+	return 0
+}
+
 case $1 in
 pathogen)
 	# https://github.com/tpope/vim-pathogen
 	mkdir autoload bundle 
 	curl -LSso autoload/pathogen.vim https://tpo.pe/pathogen.vim
 	;;
-vim-sensible)
+vim-*)
 	pathogen_install
-	if [ -d vim-sensible ]; then
-		cd vim-sensible
+	if [ -d "$1" ]; then
+		cd "$1"
 		git pull 
 	else
-		git clone git://github.com/tpope/vim-sensible.git
-	fi
-	;;
-vim-go)
-	pathogen_install
-	if [ -d vim-go ]; then
-		cd vim-go
-		git pull 
-	else
-		git clone https://github.com/fatih/vim-go.git
+		repo "$1"
+		if [ "$REPO" ]; then
+			git clone "$REPO"
+		else
+			echo "Could not find a repo matching $1"
+			usage
+		fi
 	fi
 	;;
 colors)
@@ -54,6 +77,6 @@ wipe)
 	rm -rf colors
 	;;
 *)
-	echo "$0 [base|pathogen|vim-sensible|vim-go|colors]"
+	usage
 	;;
 esac
