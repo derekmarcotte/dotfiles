@@ -1,7 +1,7 @@
 #!/bin/sh
 
 usage() {
-	echo "$0 [base|pathogen|vim-sensible|vim-go|vim-sync|colors]"
+	echo "$0 [base|pathogen|colors|vim-sensible|vim-editorconfig|vim-sync|vim-go|vim-php-cs-fixer]"
 	exit 1
 }
 
@@ -14,23 +14,35 @@ pathogen_install() {
 	cd bundle
 }
 
-REPO=""
-repo() {
+#$1 plugin name
+plugin_repo() {
 	# poor-man's associative array
-	case $1 in
+	case "$1" in
 	# language-agnostic
-	vim-sensible)     REPO="git://github.com/tpope/vim-sensible.git" ;;
-	vim-sync)         REPO="https://github.com/eshion/vim-sync" ;;
+	vim-sensible)     echo "git://github.com/tpope/vim-sensible.git" ;;
+	vim-editorconfig) echo "https://github.com/editorconfig/editorconfig-vim" ;;
+	vim-sync)         echo "https://github.com/eshion/vim-sync" ;;
 	# language-specific
-	vim-go)           REPO="https://github.com/fatih/vim-go.git" ;;
-	vim-php-cs-fixer) REPO="https://github.com/stephpy/vim-php-cs-fixer" ;;
+	vim-go)           echo "https://github.com/fatih/vim-go.git" ;;
+	vim-php-cs-fixer) echo "https://github.com/stephpy/vim-php-cs-fixer" ;;
 	*) return 1 ;;
 	esac
 
 	return 0
 }
 
-case $1 in
+#$1 plugin name
+plugin_dir() {
+	case "$1" in
+	# have to be special!
+	vim-editorconfig) echo "editorconfig-vim" ;;
+	*)                echo "$1" ;;
+	esac
+
+	return 0
+}
+
+case "$1" in
 pathogen)
 	# https://github.com/tpope/vim-pathogen
 	mkdir autoload bundle 
@@ -38,12 +50,16 @@ pathogen)
 	;;
 vim-*)
 	pathogen_install
-	if [ -d "$1" ]; then
-		cd "$1"
-		git pull
+
+	DIR="$(plugin_dir "$1")"
+	if [ -d "$DIR" ]; then
+		(
+			cd "$DIR"
+			git pull
+		)
 	else
-		repo "$1"
-		if [ "$REPO" ]; then
+		REPO="$(plugin_repo "$1")"
+		if ! [ -z "$REPO" ]; then
 			git clone "$REPO"
 		else
 			echo "Could not find a repo matching $1"
@@ -53,13 +69,15 @@ vim-*)
 	;;
 colors)
 	mkdir colors
-	cd colors
+	(
+		cd colors
 
-	# https://github.com/tomasr/molokai
-	curl -OJ https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim
+		# https://github.com/tomasr/molokai
+		curl -OJ "https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim"
 
-	# https://github.com/noahfrederick/vim-noctu
-	curl -OJ https://raw.githubusercontent.com/noahfrederick/vim-noctu/master/colors/noctu.vim
+		# https://github.com/noahfrederick/vim-noctu
+		curl -OJ "https://raw.githubusercontent.com/noahfrederick/vim-noctu/master/colors/noctu.vim"
+	)
 	;;
 base)
 	$0 pathogen
