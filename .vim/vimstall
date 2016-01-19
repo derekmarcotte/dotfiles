@@ -18,18 +18,13 @@ REPO=""
 repo() {
 	# poor-man's associative array
 	case $1 in
-	vim-sensible)
-		REPO="git://github.com/tpope/vim-sensible.git"
-		;;
-	vim-go)
-		REPO="https://github.com/fatih/vim-go.git"
-		;;
-	vim-sync)
-		REPO="https://github.com/eshion/vim-sync"
-		;;
-	*)
-		return 1
-		;;
+	# language-agnostic
+	vim-sensible)     REPO="git://github.com/tpope/vim-sensible.git" ;;
+	vim-sync)         REPO="https://github.com/eshion/vim-sync" ;;
+	# language-specific
+	vim-go)           REPO="https://github.com/fatih/vim-go.git" ;;
+	vim-php-cs-fixer) REPO="https://github.com/stephpy/vim-php-cs-fixer" ;;
+	*) return 1 ;;
 	esac
 
 	return 0
@@ -45,7 +40,7 @@ vim-*)
 	pathogen_install
 	if [ -d "$1" ]; then
 		cd "$1"
-		git pull 
+		git pull
 	else
 		repo "$1"
 		if [ "$REPO" ]; then
