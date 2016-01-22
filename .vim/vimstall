@@ -1,7 +1,7 @@
 #!/bin/sh
 
 usage() {
-	echo "$0 [base|pathogen|colors|vim-sensible|vim-editorconfig|vim-sync|vim-go|vim-go-explorer|vim-php-cs-fixer]"
+	echo "$0 [base|pathogen|colors|update|vim-sensible|vim-editorconfig|vim-sync|vim-go|vim-go-explorer|vim-php-cs-fixer]"
 	exit 1
 }
 
