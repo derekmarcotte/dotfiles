@@ -1,22 +1,14 @@
 #!/bin/sh
 
 usage() {
-	echo "$0 [base|pathogen|colors|vim-sensible|vim-editorconfig|vim-sync|vim-go|vim-php-cs-fixer]"
+	echo "$0 [base|pathogen|colors|vim-sensible|vim-editorconfig|vim-sync|vim-go|vim-go-explorer|vim-php-cs-fixer]"
 	exit 1
-}
-
-pathogen_install() {
-	if [ ! -d bundle ]; then
-		echo "Pathogen not found, installing?"
-		$0 pathogen
-	fi
-
-	cd bundle
 }
 
 #$1 plugin name
 plugin_repo() {
-	# poor-man's associative array
+	# NOTE: remember to update usage ^^
+
 	case "$1" in
 	# language-agnostic
 	vim-sensible)     echo "git://github.com/tpope/vim-sensible.git" ;;
@@ -43,6 +35,16 @@ plugin_dir() {
 
 	return 0
 }
+
+pathogen_install() {
+	if [ ! -d bundle ]; then
+		echo "Pathogen not found, installing?"
+		$0 pathogen
+	fi
+
+	cd bundle
+}
+
 
 case "$1" in
 pathogen)
