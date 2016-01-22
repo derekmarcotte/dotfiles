@@ -24,6 +24,7 @@ plugin_repo() {
 	vim-sync)         echo "https://github.com/eshion/vim-sync" ;;
 	# language-specific
 	vim-go)           echo "https://github.com/fatih/vim-go.git" ;;
+	vim-go-explorer)  echo "https://github.com/garyburd/go-explorer" ;;
 	vim-php-cs-fixer) echo "https://github.com/stephpy/vim-php-cs-fixer" ;;
 	*) return 1 ;;
 	esac
@@ -36,6 +37,7 @@ plugin_dir() {
 	case "$1" in
 	# have to be special!
 	vim-editorconfig) echo "editorconfig-vim" ;;
+	vim-go-explorer)  echo "go-explorer" ;;
 	*)                echo "$1" ;;
 	esac
 
@@ -45,8 +47,13 @@ plugin_dir() {
 case "$1" in
 pathogen)
 	# https://github.com/tpope/vim-pathogen
-	mkdir autoload bundle 
-	curl -LSso autoload/pathogen.vim https://tpo.pe/pathogen.vim
+	for d in autoload bundle; do
+		if [ ! -e $d ]; then
+			mkdir $d;
+		fi
+	done
+
+	curl -SsLo autoload/pathogen.vim https://tpo.pe/pathogen.vim
 	;;
 vim-*)
 	pathogen_install
@@ -67,16 +74,37 @@ vim-*)
 		fi
 	fi
 	;;
+update)
+	if [ -d "autoload" ]; then
+		echo "Updating pathogen..."
+		$0 "pathogen";
+	fi
+
+	if [ -d "colors"  ]; then
+		echo "Updating colors..."
+		$0 "colors";
+	fi
+
+	if [ -d "bundle" ]; then
+		for b in bundle/*; do
+			echo "Updating $b..."
+			(cd $b; git pull)
+		done
+	fi
+	;;
 colors)
-	mkdir colors
+	if [ ! -e "colors" ]; then
+		mkdir colors
+	fi
+
 	(
 		cd colors
 
 		# https://github.com/tomasr/molokai
-		curl -OJ "https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim"
+		curl -SsOJ "https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim"
 
 		# https://github.com/noahfrederick/vim-noctu
-		curl -OJ "https://raw.githubusercontent.com/noahfrederick/vim-noctu/master/colors/noctu.vim"
+		curl -SsOJ "https://raw.githubusercontent.com/noahfrederick/vim-noctu/master/colors/noctu.vim"
 	)
 	;;
 base)
