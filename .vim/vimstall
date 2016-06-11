@@ -14,6 +14,7 @@ plugin_repo() {
 	vim-sensible)     echo "git://github.com/tpope/vim-sensible.git" ;;
 	vim-editorconfig) echo "https://github.com/editorconfig/editorconfig-vim" ;;
 	vim-sync)         echo "https://github.com/eshion/vim-sync" ;;
+	vim-tagbar)       echo "https://github.com/majutsushi/tagbar" ;;
 	# language-specific
 	vim-go)           echo "https://github.com/fatih/vim-go.git" ;;
 	vim-go-explorer)  echo "https://github.com/garyburd/go-explorer" ;;
@@ -30,6 +31,7 @@ plugin_dir() {
 	# have to be special!
 	vim-editorconfig) echo "editorconfig-vim" ;;
 	vim-go-explorer)  echo "go-explorer" ;;
+	vim-tagbar)       echo "tagbar" ;;
 	*)                echo "$1" ;;
 	esac
 
