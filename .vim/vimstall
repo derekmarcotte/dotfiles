@@ -1,15 +1,9 @@
 #!/bin/sh
 
-usage() {
-	echo "$0 [base|pathogen|colors|update|vim-sensible|vim-editorconfig|vim-sync|vim-go|vim-go-explorer|vim-php-cs-fixer]"
-	exit 1
-}
-
-#$1 plugin name
 plugin_repo() {
-	# NOTE: remember to update usage ^^
+	local plugin="$1"
 
-	case "$1" in
+	case "$plugin" in
 	# language-agnostic
 	vim-sensible)     echo "git://github.com/tpope/vim-sensible.git" ;;
 	vim-editorconfig) echo "https://github.com/editorconfig/editorconfig-vim" ;;
@@ -19,84 +13,53 @@ plugin_repo() {
 	vim-go)           echo "https://github.com/fatih/vim-go.git" ;;
 	vim-go-explorer)  echo "https://github.com/garyburd/go-explorer" ;;
 	vim-php-cs-fixer) echo "https://github.com/stephpy/vim-php-cs-fixer" ;;
+
+	all)
+		# all of the above
+		echo "vim-sensible|vim-editorconfig|vim-sync|vim-tagbar|vim-go|vim-go-explorer|vim-php-cs-fixer"
+		return 1
+		;;
 	*) return 1 ;;
 	esac
 
 	return 0
 }
 
-#$1 plugin name
 plugin_dir() {
-	case "$1" in
+	local plugin="$1"
+	case "$plugin" in
 	# have to be special!
 	vim-editorconfig) echo "editorconfig-vim" ;;
 	vim-go-explorer)  echo "go-explorer" ;;
 	vim-tagbar)       echo "tagbar" ;;
-	*)                echo "$1" ;;
+	*)                echo "$plugin" ;;
 	esac
 
 	return 0
 }
 
-pathogen_install() {
-	if [ ! -d bundle ]; then
-		echo "Pathogen not found, installing?"
-		$0 pathogen
-	fi
+vimstall_pathogen() {
+	local dir
 
-	cd bundle
-}
-
-
-case "$1" in
-pathogen)
 	# https://github.com/tpope/vim-pathogen
-	for d in autoload bundle; do
-		if [ ! -e $d ]; then
-			mkdir $d;
+	for dir in autoload bundle; do
+		if [ ! -e "$dir" ]; then
+			mkdir "$dir";
 		fi
 	done
 
 	curl -SsLo autoload/pathogen.vim https://tpo.pe/pathogen.vim
-	;;
-vim-*)
-	pathogen_install
+}
 
-	DIR="$(plugin_dir "$1")"
-	if [ -d "$DIR" ]; then
-		(
-			cd "$DIR"
-			git pull
-		)
-	else
-		REPO="$(plugin_repo "$1")"
-		if ! [ -z "$REPO" ]; then
-			git clone "$REPO"
-		else
-			echo "Could not find a repo matching $1"
-			usage
-		fi
-	fi
-	;;
-update)
-	if [ -d "autoload" ]; then
-		echo "Updating pathogen..."
-		$0 "pathogen";
-	fi
+vimstall_base() {
+	local e
 
-	if [ -d "colors"  ]; then
-		echo "Updating colors..."
-		$0 "colors";
-	fi
+	for e in pathogen colors vim-sensible; do
+		main "$e"
+	done
+}
 
-	if [ -d "bundle" ]; then
-		for b in bundle/*; do
-			echo "Updating $b..."
-			(cd $b; git pull)
-		done
-	fi
-	;;
-colors)
+vimstall_colors() {
 	if [ ! -e "colors" ]; then
 		mkdir colors
 	fi
@@ -110,18 +73,95 @@ colors)
 		# https://github.com/noahfrederick/vim-noctu
 		curl -SsOJ "https://raw.githubusercontent.com/noahfrederick/vim-noctu/master/colors/noctu.vim"
 	)
-	;;
-base)
-	$0 pathogen
-	$0 colors
-	$0 vim-sensible
-	;;
-wipe)
-	rm -rf autoload
-	rm -rf bundle
-	rm -rf colors
-	;;
-*)
-	usage
-	;;
-esac
+}
+
+vimstall_update() {
+	local dir
+
+	if [ -d "autoload" ]; then
+		echo "Updating pathogen..."
+		vimstall_pathogen
+	fi
+
+	if [ -d "colors"  ]; then
+		echo "Updating colors..."
+		vimstall_colors
+	fi
+
+	if [ -d "bundle" ]; then
+		for dir in bundle/*; do
+			echo "Updating ${dir}..."
+			(
+				cd "$dir"
+				git pull
+			)
+		done
+	fi
+}
+
+vimstall_wipe() {
+	local dir
+
+	for dir in autoload bundle colors; do
+		if [ -d "$dir" ]; then
+			rm -rf "$dir"
+		fi
+	done
+}
+
+_vimstall_bundle() {
+	local target="$1"
+	if [ "$(echo "$target" | cut -c1-4)" != "vim-" ]; then
+		echo "Invalid target $target"
+		return 1
+	fi
+
+	local dir
+	local repo
+
+	if [ ! -e bundle ]; then
+		echo "Pathogen not found, installing?"
+		main "pathogen"
+	fi
+
+	(
+		cd bundle
+
+		dir="$(plugin_dir "$target")"
+		if [ -d "$dir" ]; then
+			(
+				cd "$dir"
+				git pull
+			)
+		else
+			repo="$(plugin_repo "$target")"
+			if ! [ -z "$repo" ]; then
+				git clone "$repo"
+			else
+				echo "Could not find a repo matching $target"
+				usage
+			fi
+		fi
+	)
+}
+
+usage() {
+	echo "$0 [base|pathogen|colors|update|$(plugin_repo "all")]"
+	exit 1
+}
+
+main() {
+	local target="$1"
+
+	case "$target" in
+	pathogen) vimstall_pathogen ;;
+	update)   vimstall_update ;;
+	colors)   vimstall_colors ;;
+	base)     vimstall_base ;;
+	wipe)     vimstall_wipe ;;
+	vim-*)    _vimstall_bundle "$target" ;;
+	*)        usage ;;
+	esac
+}
+
+main "$@"
