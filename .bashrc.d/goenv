@@ -1,0 +1,10 @@
+GOROOT="$HOME/go"
+if [ ! -d "$GOROOT" ]; then
+	exit 0
+fi
+
+export GOROOT
+export GOPATH="$HOME/Documents/go"
+export GOROOT_BOOTSTRAP="$HOME/go14"
+
+export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
