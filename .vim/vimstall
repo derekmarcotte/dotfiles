@@ -17,7 +17,7 @@ plugin_repo() {
 
 	all)
 		# all of the above
-		echo "vim-sensible|vim-editorconfig|vim-sync|vim-tagbar|vim-go|vim-go-explorer|vim-php-cs-fixer"
+		echo "vim-sensible|vim-editorconfig|vim-sync|vim-tagbar|vim-nerdtree|vim-go|vim-go-explorer|vim-php-cs-fixer"
 		return 1
 		;;
 	*) return 1 ;;
