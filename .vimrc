@@ -50,6 +50,8 @@ set hlsearch                                                                   "
 "" clearing highlighted search
 nnoremap <CR> :nohlsearch<cr>
 
+inoremap jk <esc>
+
 "" Spell
 set nospell                                                                    "Disabled spelling
 
