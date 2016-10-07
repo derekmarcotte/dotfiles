@@ -2,6 +2,7 @@
 
 cd $HOME
 ln -s dotfiles/.bashrc .
+ln -s .bashrc .bash_profile
 ln -s dotfiles/.tmux.conf .
 
 mkdir .bashrc.d
