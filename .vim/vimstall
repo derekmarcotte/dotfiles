@@ -10,6 +10,7 @@ plugin_repo() {
 	vim-sync)         echo "https://github.com/eshion/vim-sync" ;;
 	vim-tagbar)       echo "https://github.com/majutsushi/tagbar" ;;
 	vim-nerdtree)     echo "https://github.com/scrooloose/nerdtree.git" ;;
+	vim-ack)          echo "https://github.com/mileszs/ack.vim.git" ;;
 	# language-specific
 	vim-go)           echo "https://github.com/fatih/vim-go.git" ;;
 	vim-go-explorer)  echo "https://github.com/garyburd/go-explorer" ;;
@@ -34,6 +35,7 @@ plugin_dir() {
 	vim-go-explorer)  echo "go-explorer" ;;
 	vim-tagbar)       echo "tagbar" ;;
 	vim-nerdtree)     echo "nerdtree" ;;
+	vim-ack)          echo "ack.vim" ;;
 	*)                echo "$plugin" ;;
 	esac
 
