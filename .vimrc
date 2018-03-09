@@ -61,3 +61,8 @@ try
 catch
 endtry
 
+"" type-specific settings
+
+autocmd FileType yaml setlocal ts=4 sts=4 sw=4 expandtab
+
+
