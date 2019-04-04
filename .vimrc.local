@@ -10,6 +10,8 @@ set t_Co=256
 " flag column 80
 set colorcolumn=80
 
+" let g:go_version_warning = 0
+
 if executable("aspell") == 1
 	set autowrite
 	map <Leader>s <Esc>:!aspell -c --dont-backup "%"<CR>:e! "%"<CR><CR>
