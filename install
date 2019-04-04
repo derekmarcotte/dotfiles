@@ -6,7 +6,7 @@ ln -s .bashrc .bash_profile
 ln -s dotfiles/.tmux.conf .
 
 mkdir .bashrc.d
-ln -s dotfiles/less .bashrc/
+ln -s dotfiles/less .bashrc.d/
 
 # vim configuration
 
