@@ -16,3 +16,13 @@ if executable("aspell") == 1
 	set autowrite
 	map <Leader>s <Esc>:!aspell -c --dont-backup "%"<CR>:e! "%"<CR><CR>
 endif
+
+let g:tagbar_type_markdown = {
+            \ 'ctagstype' : 'markdown',
+            \ 'kinds' : [
+                \ 'h:headings',
+                \ 'l:links',
+                \ 'i:images'
+            \ ],
+    \ "sort" : 0
+\ }

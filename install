@@ -13,6 +13,8 @@ ln -s dotfiles/less .bashrc.d/
 ln -s dotfiles/.vimrc .
 cp dotfiles/.vimrc.local .
 
+ln -s dotfiles/.ctags .
+
 mkdir .vim
 cd .vim
 
