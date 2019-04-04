@@ -76,6 +76,8 @@ vimstall_colors() {
 
 		# https://github.com/noahfrederick/vim-noctu
 		curl -SsOJ "https://raw.githubusercontent.com/noahfrederick/vim-noctu/master/colors/noctu.vim"
+
+		curl -SsOJ "http://www.vim.org/scripts/download_script.php?src_id=14049" 
 	)
 }
 
