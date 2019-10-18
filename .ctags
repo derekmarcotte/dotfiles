@@ -3,4 +3,11 @@
 --regex-markdown=/^(#+)[ \t]+([^#]*)/\1 \2/h,header,Markdown Headers/
 --regex-markdown=/\[([^\[]+)\]\(([^\)]+)\)/\1/l,link,Markdown Links/
 --regex-markdown=/!\[\]\(.*[\/ ](.*\.[a-z]{3})\)/\1/i,image,Markdown Image/
+--langdef=terraform
+--langmap=terraform:.tf.tfvars
+--regex-terraform=/^resource "(.+)" "(.+)"/\1 \2/r,resources/
+--regex-terraform=/^variable "(.+)"/\1/v,variables/
+--regex-terraform=/^module "(.+)"/\1/m,modules/
+--regex-terraform=/^output "(.+)"/\1/o,outputs/
+--regex-terraform=/^([a-z0-9_]+) =/\1/f,tfvars/
 
