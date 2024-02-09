@@ -1,0 +1,13 @@
+# global 
+
+for x in /usr/local/etc/bash_completion.d/*; do
+	if [ "$x" == "/usr/local/etc/bash_completion.d/ag.bashcomp.sh" ]; then
+		# doesn't work
+		continue
+	fi
+
+	if bash -n "$x"; then
+		. "$x"
+	fi
+done
+
