@@ -37,3 +37,4 @@ _dotfiles_ssh_agent() {
 }
 
 _dotfiles_ssh_agent "$@"
+unset -f _dotfiles_ssh_agent_load_env _dotfiles_ssh_agent_start _dotfiles_ssh_agent

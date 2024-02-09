@@ -18,3 +18,4 @@ _dotfiles_goenv() {
 }
 
 _dotfiles_goenv "$@"
+unset -f _dotfiles_goenv

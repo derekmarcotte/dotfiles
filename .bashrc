@@ -20,4 +20,5 @@ _dotfiles_load_scripts() {
 }
 
 _dotfiles_load_scripts "$@"
+unset _dotfiles_load_scripts
 
