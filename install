@@ -24,11 +24,11 @@ configure_bash() {
 	done
 }
 
-main () {
+main() {
 	cd $HOME
 
 	configure_bash
 	configure_vim
 }
 
-main()
+main "$@"
