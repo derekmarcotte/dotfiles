@@ -5,7 +5,7 @@ plugin_repo() {
 
 	case "$plugin" in
 	# language-agnostic
-	vim-sensible)     echo "git://github.com/tpope/vim-sensible.git" ;;
+	vim-sensible)     echo "https://github.com/tpope/vim-sensible.git" ;;
 	vim-editorconfig) echo "https://github.com/editorconfig/editorconfig-vim" ;;
 	vim-sync)         echo "https://github.com/eshion/vim-sync" ;;
 	vim-tagbar)       echo "https://github.com/majutsushi/tagbar" ;;
