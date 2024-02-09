@@ -1,22 +1,34 @@
 #!/bin/sh
 
-cd $HOME
-ln -s dotfiles/.bashrc .
-ln -s .bashrc .bash_profile
-ln -s dotfiles/.tmux.conf .
+configure_vim() {
+	ln -s dotfiles/.vimrc
+	cp dotfiles/.vimrc.local
 
-mkdir .bashrc.d
-ln -s dotfiles/less .bashrc.d/
+	ln -s dotfiles/.ctags
 
-# vim configuration
+	mkdir .vim
+	cd .vim
 
-ln -s dotfiles/.vimrc .
-cp dotfiles/.vimrc.local .
+	ln -s ../dotfiles/.vim/vimstall
+	./vimstall base
+}
 
-ln -s dotfiles/.ctags .
+configure_bash() {
+	ln -s dotfiles/.bashrc
+	ln -s .bashrc .bash_profile
+	ln -s dotfiles/.tmux.conf
 
-mkdir .vim
-cd .vim
+	mkdir .bashrc.d
+	for default in less history editor; do
+		ln -s "../dotfiles/.bashrc.d/$default" .bashrc.d/
+	done
+}
 
-ln -s ../dotfiles/.vim/vimstall .
-./vimstall base
+main () {
+	cd $HOME
+
+	configure_bash
+	configure_vim
+}
+
+main()
