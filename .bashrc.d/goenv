@@ -1,9 +1,20 @@
-GOROOT="$HOME/go"
-if [ ! -d "$GOROOT" ]; then
-	exit 0
-fi
+#!/bin/sh
 
-export GOROOT
-export GOPATH="$HOME/Documents/go"
+main() {
+	GOROOT="$HOME/go"
+	if [ ! -d "$GOROOT" ]; then
+		return 0
+	fi
 
-export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+	export GOROOT
+
+	if [ -d "$HOME/Documents/go" ]; then
+		export GOPATH="$HOME/Documents/go"
+	else
+		export GOPATH="$HOME/dev/go"
+	fi
+
+	export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+}
+
+main "$@"
