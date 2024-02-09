@@ -1,4 +1,4 @@
-load_scripts() {
+_dotfiles_load_scripts() {
 	local script
 	local header
 	
@@ -19,5 +19,5 @@ load_scripts() {
 	fi
 }
 
-load_scripts "$@"
+_dotfiles_load_scripts "$@"
 

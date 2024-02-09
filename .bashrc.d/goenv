@@ -1,6 +1,6 @@
 #!/bin/sh
 
-main() {
+_dotfiles_goenv() {
 	GOROOT="$HOME/go"
 	if [ ! -d "$GOROOT" ]; then
 		return 0
@@ -17,4 +17,4 @@ main() {
 	export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
 }
 
-main "$@"
+_dotfiles_goenv "$@"
