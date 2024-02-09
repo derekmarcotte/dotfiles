@@ -1,0 +1,29 @@
+[user]
+;	name =
+;	email =
+
+[core]
+	pager = less -R -X -F
+	excludesfile = ~/.gitignore
+	autocrlf = input
+	eol = lf
+	whitespace = trailing-space,space-before-tab,tab-in-indent
+	editor = vim
+
+[alias]
+	lg = log --decorate --graph	--format='%C(yellow)%h%Creset %Cred%d%Creset %s %Cgreen%an%Creset (%C(cyan)%ar%Creset)'
+	la = log --all --decorate --graph  --format='%C(yellow)%h%Creset %Cred%d%Creset %s %Cgreen%an%Creset (%C(cyan)%ar%Creset)'
+
+[http]
+	sslCAinfo = /usr/local/etc/ssl/cert.pem
+[pull]
+	rebase = true
+[push]
+	default = matching
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
