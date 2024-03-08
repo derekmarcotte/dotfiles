@@ -31,6 +31,7 @@ set showmatch                                                                  "
 
 "" indentation
 set smartindent                                                                "Do smart autoindenting when starting a new line
+set paste
 
 "" Where you are
 set number                                                                     "Precede each line with its line number

@@ -11,6 +11,7 @@ plugin_repo() {
 	vim-tagbar)       echo "https://github.com/majutsushi/tagbar" ;;
 	vim-nerdtree)     echo "https://github.com/scrooloose/nerdtree.git" ;;
 	vim-ack)          echo "https://github.com/mileszs/ack.vim.git" ;;
+	vim-lsp)          echo "https://github.com/prabirshrestha/vim-lsp" ;;
 	# language-specific
 	vim-go)           echo "https://github.com/fatih/vim-go.git" ;;
 	vim-go-explorer)  echo "https://github.com/garyburd/go-explorer" ;;
@@ -18,7 +19,7 @@ plugin_repo() {
 
 	all)
 		# all of the above
-		echo "vim-sensible|vim-editorconfig|vim-sync|vim-tagbar|vim-nerdtree|vim-go|vim-go-explorer|vim-php-cs-fixer"
+		echo "vim-sensible|vim-editorconfig|vim-sync|vim-tagbar|vim-nerdtree|vim-go|vim-go-explorer|vim-php-cs-fixer|vim-lsp"
 		return 1
 		;;
 	*) return 1 ;;

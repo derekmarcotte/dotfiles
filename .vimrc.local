@@ -17,12 +17,32 @@ if executable("aspell") == 1
 	map <Leader>s <Esc>:!aspell -c --dont-backup "%"<CR>:e! "%"<CR><CR>
 endif
 
+autocmd FileType tf setlocal ts=2 sts=2 sw=2 expandtab
+
 let g:tagbar_type_markdown = {
-            \ 'ctagstype' : 'markdown',
-            \ 'kinds' : [
-                \ 'h:headings',
-                \ 'l:links',
-                \ 'i:images'
-            \ ],
-    \ "sort" : 0
+	\ 'ctagstype' : 'markdown',
+	\ 'kinds' : [
+		\ 'h:headings',
+		\ 'l:links',
+		\ 'i:images'
+	\ ],
+	\ "sort" : 0
 \ }
+
+let g:tagbar_type_terraform = {
+	\ 'ctagstype' : 'terraform',
+	\ 'kinds' : [
+		\ 'r:resources',
+		\ 'm:modules',
+		\ 'o:outputs',
+		\ 'v:variables',
+		\ 'f:tfvars'
+	\ ],
+	\ 'sort' : 0
+\ }
+
+" RDF Notation 3 Syntax
+augroup filetypedetect
+	au BufNewFile,BufRead *.n3  setfiletype n3
+augroup END 
+
