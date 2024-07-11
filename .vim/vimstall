@@ -16,6 +16,7 @@ plugin_repo() {
 	vim-go)           echo "https://github.com/fatih/vim-go.git" ;;
 	vim-go-explorer)  echo "https://github.com/garyburd/go-explorer" ;;
 	vim-php-cs-fixer) echo "https://github.com/stephpy/vim-php-cs-fixer" ;;
+	vim-terraform)    echo "https://github.com/hashivim/vim-terraform.git" ;;
 
 	all)
 		# all of the above
